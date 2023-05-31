@@ -54,6 +54,8 @@ function increment(button) {
     disabledRemove.setAttribute("data-tooltip", "remove");
     disabledRemove.addEventListener("click", decrement);
   }
+
+  changeYellow(button, value, 1);
 }
 
 function decrement() {
@@ -72,4 +74,23 @@ function decrement() {
   if (value > 1) {
     counterElement.innerText = value - 1;
   }
+
+  changeYellow(button, value, -1);
+}
+
+function changeYellow(button, value, sign) {
+  const itemElement = button.closest(".item");
+  const itemBlockName = itemElement.querySelector(
+    ".not_bought_product_name p"
+  ).textContent;
+
+  var elements = document.querySelectorAll(".right_block .cell");
+
+  elements.forEach(function (element) {
+    var text = element.textContent.trim().split("\n");
+    if (text[0] == itemBlockName) {
+      var yellowCounter = element.querySelector(".yellow_counter");
+      yellowCounter.innerHTML = value + sign * 1;
+    }
+  });
 }

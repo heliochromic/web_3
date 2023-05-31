@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>buy list</title>
+    <link rel="icon" type="image/x-icon" href="4t0m5.jpg" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>to-buy list.</h1>
+    </header>
+    <section>
+      <div id="left" class="container">
+        <div id="add_item">
+          <form>
+            <input type="text" placeholder="Назва товару" name="search" />
+            <button type="submit" class="tooltip" data-tooltip="click to add">
+              Додати
+            </button>
+          </form>
+        </div>
+        <div class="item">
+          <div class="bought_product_name">
+            <p>Помідори</p>
+          </div>
+          <div class="counter">2</div>
+          <div class="not_bought">
+            <button
+              type="button"
+              class="add to_do tooltip"
+              data-tooltip="return to list"
+            >
+              Не куплено
+            </button>
+          </div>
+        </div>
+        <div class="item">
+          <div class="not_bought_product_name">
+            <p>Печиво</p>
+          </div>
+          <div class="not_bought_counter">
+            <button
+              type="button"
+              class="round_button delete tooltip"
+              data-tooltip="remove"
+            >
+              -
+            </button>
+            <div class="counter">2</div>
+            <button
+              type="button"
+              class="round_button add tooltip"
+              data-tooltip="add"
+            >
+              +
+            </button>
+          </div>
+          <div class="bought">
+            <button
+              type="button"
+              class="add to_do tooltip"
+              data-tooltip="click to buy"
+            >
+              Куплено
+            </button>
+            <button
+              type="button"
+              class="delete remove tooltip"
+              data-tooltip="delete"
+            >
+              X
+            </button>
+          </div>
+        </div>
+        <div class="item">
+          <div class="product_name_form">
+            <form>
+              <input type="text" id="set_item_name" />
+            </form>
+          </div>
+          <div class="not_bought_counter">
+            <button
+              type="button"
+              class="round_button delete disabled"
+              data-tooltip="delete"
+              disabled
+            >
+              -
+            </button>
+            <div class="counter">1</div>
+            <button
+              type="button"
+              class="round_button add tooltip"
+              data-tooltip="add"
+              disabled
+            >
+              +
+            </button>
+          </div>
+          <div class="bought">
+            <button
+              type="button"
+              class="add to_do tooltip"
+              data-tooltip="click to buy"
+            >
+              Куплено
+            </button>
+            <button
+              type="button"
+              class="delete remove tooltip"
+              data-tooltip="delete"
+            >
+              X
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="right" class="container">
+        <div class="right_block" style="border: none"><b>Залишилося</b></div>
+        <div class="right_block" id="not_done">
+          <span class="cell">
+            Печиво
+            <div class="yellow_counter">2</div>
+          </span>
+          <span class="cell">
+            Сир
+            <div class="yellow_counter">2</div>
+          </span>
+        </div>
+        <div class="right_block"><b>Куплено</b></div>
+        <div class="right_block" id="done">
+          <span class="cell">
+            <span id="strikethrough">Помідори</span>
+            <div class="yellow_counter">2</div>
+          </span>
+        </div>
+      </div>
+    </section>
+    <div id="badge">
+      <div id="badge-title"><b>Buy List</b></div>
+      <div>Created by:</div>
+      <div id="badge-name">Bohdan Prokhorov</div>
+    </div>
+  </body>
+</html>

@@ -43,29 +43,33 @@ function addElement() {
 }
 
 function increment(button) {
-  let counterElement = button.parentNode.querySelector(".counter");
+  const counterElement = button.parentNode.querySelector(".counter");
   let value = parseInt(counterElement.innerText);
-  if (counterElement.innerHTML == 1) {
+  counterElement.innerText = value + 1;
+
+  if (value === 1) {
     let disabledRemove = button.parentNode.querySelector(".delete");
     disabledRemove.setAttribute("type", "button");
     disabledRemove.setAttribute("class", "round_button delete tooltip");
     disabledRemove.setAttribute("data-tooltip", "remove");
-    disabledRemove.addEventListener("click", function () {
-      decrement(this);
-    });
+    disabledRemove.addEventListener("click", decrement);
   }
-  counterElement.innerText = value + 1;
 }
 
-function decrement(button) {
-  let counterElement = button.parentNode.querySelector(".counter");
+function decrement() {
+  const button = this; // Since the decrement function is called as an event listener, `this` refers to the clicked button
+  const counterElement = button.parentNode.querySelector(".counter");
   let value = parseInt(counterElement.innerText);
-  if (value > 1) {
-    counterElement.innerText = value - 1;
-  }
-  if (counterElement.innerHTML == 1) {
+  if (value === 2) {
     let activeRemove = button.parentNode.querySelector(".delete");
+    activeRemove.removeAttribute("type");
+    activeRemove.removeAttribute("class");
+    activeRemove.removeAttribute("data-tooltip");
+    activeRemove.removeEventListener("click", decrement);
     activeRemove.setAttribute("type", "button");
     activeRemove.setAttribute("class", "round_button delete disabled");
+  }
+  if (value > 1) {
+    counterElement.innerText = value - 1;
   }
 }

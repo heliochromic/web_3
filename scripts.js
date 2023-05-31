@@ -13,18 +13,44 @@ function addElement() {
   newElement.classList.add("item");
 
   newElement.innerHTML = `
-      <div class="not_bought_product_name">
-        <p>${inputValue}</p>
-      </div>
-      <div class="not_bought_counter">
-        <button type="button" class="round_button delete tooltip" data-tooltip="remove" onclick="decrement(this)">-</button>
-        <div class="counter">1</div>
-        <button type="button" class="round_button add tooltip" data-tooltip="add" onclick="increment(this)">+</button>
-      </div>
-      <div class="bought">
-        <button type="button" class="add to_do tooltip" data-tooltip="click to buy">Куплено</button>
-        <button type="button" class="delete remove tooltip" data-tooltip="delete">X</button>
-      </div>
+  <div class="not_bought_product_name">
+    <p>${inputValue}</p>
+  </div>
+  <div class="not_bought_counter">
+    <button
+        type="button"
+        class="round_button delete disabled"
+        data-tooltip="delete"
+        onclick="decrement(this)"
+    >
+        -
+    </button>
+    <div class="counter">1</div>
+    <button
+      type="button"
+      class="round_button add tooltip"
+      data-tooltip="add"
+      onclick="increment(this)"
+    >
+      +
+    </button>
+  </div>
+  <div class="bought">
+    <button
+      type="button"
+      class="add to_do tooltip"
+      data-tooltip="click to buy"
+    >
+      Куплено
+    </button>
+    <button
+      type="button"
+      class="delete remove tooltip"
+      data-tooltip="delete"
+    >
+      X
+    </button>
+  </div>
     `;
 
   let newLeftElement = document.createElement("span");
@@ -57,11 +83,21 @@ function increment(button) {
 }
 
 function decrement() {
-  const button = this; // Since the decrement function is called as an event listener, `this` refers to the clicked button
-  const counterElement = button.parentNode.querySelector(".counter");
+  const button = this;
+  const counterElement = button.parentElement.querySelector(".counter");
+  if (!counterElement) {
+    console.error("Counter element not found");
+    return;
+  }
+
   let value = parseInt(counterElement.innerText);
   if (value === 2) {
-    let activeRemove = button.parentNode.querySelector(".delete");
+    let activeRemove = parentElement.querySelector(".delete");
+    if (!activeRemove) {
+      console.error("Active remove element not found");
+      return;
+    }
+
     activeRemove.removeAttribute("type");
     activeRemove.removeAttribute("class");
     activeRemove.removeAttribute("data-tooltip");
@@ -69,7 +105,26 @@ function decrement() {
     activeRemove.setAttribute("type", "button");
     activeRemove.setAttribute("class", "round_button delete disabled");
   }
+}
+
+function addToList() {}
+
+function changeTheYellow(name) {
   if (value > 1) {
     counterElement.innerText = value - 1;
   }
+
+  var elements = document.querySelectorAll(".right_block .cell");
+
+  elements.forEach(function (element) {
+    var text = element.textContent.trim();
+
+    if (text === name) {
+      var yellowCounter = element.querySelector(".yellow_counter");
+      var count = yellowCounter.textContent.trim();
+
+      // Do something with the element and count
+      console.log("Found пластвці:", element, count);
+    }
+  });
 }

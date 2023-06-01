@@ -13,11 +13,11 @@ function addElement() {
   newElement.classList.add("item");
 
   newElement.innerHTML = `
-        <div class="not_bought_product_name">
+        <div class="not_bought_product_name" onclick="editItemName(this)">
           <p>${inputValue}</p>
         </div>
         <div class="not_bought_counter">
-          <button type="button" class="round_button delete tooltip" data-tooltip="remove" onclick="decrement(this)">-</button>
+          <button type="button" class="round_button delete disabled" data-tooltip="remove" onclick="decrement(this)">-</button>
           <div class="counter">1</div>
           <button type="button" class="round_button add tooltip" data-tooltip="add" onclick="increment(this)">+</button>
         </div>
@@ -93,4 +93,40 @@ function changeYellow(button, value, sign) {
       yellowCounter.innerHTML = value + sign * 1;
     }
   });
+}
+
+function editItemName(name) {
+  let itemElement = name.parentNode;
+
+  const itemInput = document.createElement("div");
+  itemInput.classList.add("product_name_form");
+  itemInput.innerHTML = `
+    <form>
+      <input type="text" id="set_item_name" name="update"/>
+    </form>
+  `;
+
+  function saveUpdatedName() {
+    let input = document.getElementById("set_item_name");
+    console.log(input);
+    const newName = document.createElement("div");
+    newName.setAttribute("class", "not_bought_product_name");
+    newName.addEventListener("focusout", function () {
+      editItemName(this);
+    });
+    newName.addEventListener("click", function () {
+      editItemName(this);
+    });
+    newName.innerHTML = `
+      <p>${input.value}</p>
+    `;
+    itemElement.replaceChild(newName, input);
+  }
+
+  itemInput.addEventListener("click", function () {
+    saveUpdatedName();
+  });
+
+  const currentItemName = itemElement.querySelector(".not_bought_product_name");
+  itemElement.replaceChild(itemInput, currentItemName);
 }

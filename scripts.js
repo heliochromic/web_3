@@ -23,7 +23,7 @@ function addElement() {
         </div>
         <div class="bought">
           <button type="button" class="add to_do tooltip" data-tooltip="click to buy">Куплено</button>
-          <button type="button" class="delete remove tooltip" data-tooltip="delete">X</button>
+          <button type="button" class="delete remove tooltip" data-tooltip="delete" onclick="deleteItem(this)">X</button>
         </div>
       `;
 
@@ -31,8 +31,8 @@ function addElement() {
   newLeftElement.classList.add("cell");
 
   newLeftElement.innerHTML = `          
-          ${inputValue}
-          <div class="yellow_counter">1</div>`;
+    <span class="item-name">${inputValue}</span>
+    <div class="yellow_counter">1</div>`;
 
   let container = document.getElementById("left");
   let rightContainer = document.querySelector("#not_done");
@@ -41,6 +41,14 @@ function addElement() {
 
   input.value = "";
 }
+
+let input = document.querySelector('input[name="search"]');
+input.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault(); // Prevent form submission
+    addElement(); // Call the addElement function
+  }
+});
 
 function increment(button) {
   const counterElement = button.parentNode.querySelector(".counter");
@@ -95,38 +103,93 @@ function changeYellow(button, value, sign) {
   });
 }
 
-function editItemName(name) {
-  let itemElement = name.parentNode;
+function editItemName(element) {
+  const itemName = element.querySelector("p").textContent;
 
-  const itemInput = document.createElement("div");
-  itemInput.classList.add("product_name_form");
-  itemInput.innerHTML = `
-    <form>
-      <input type="text" id="set_item_name" name="update"/>
-    </form>
-  `;
+  const formDiv = document.createElement("div");
+  formDiv.className = "product_name_form";
 
-  function saveUpdatedName() {
-    let input = document.getElementById("set_item_name");
-    console.log(input);
-    const newName = document.createElement("div");
-    newName.setAttribute("class", "not_bought_product_name");
-    newName.addEventListener("focusout", function () {
-      editItemName(this);
-    });
-    newName.addEventListener("click", function () {
-      editItemName(this);
-    });
-    newName.innerHTML = `
-      <p>${input.value}</p>
-    `;
-    itemElement.replaceChild(newName, input);
-  }
+  const form = document.createElement("form");
+  const input = document.createElement("input");
+  input.type = "text";
+  input.id = "set_item_name";
+  form.appendChild(input);
+  formDiv.appendChild(form);
 
-  itemInput.addEventListener("click", function () {
+  const parentDiv = element.parentElement;
+  parentDiv.replaceChild(formDiv, element);
+  input.focus();
+
+  input.value = itemName;
+
+  input.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent form submission
+      saveUpdatedName();
+    }
+  });
+
+  form.addEventListener("focusout", function (event) {
+    event.preventDefault(); // Prevent the form from submitting
     saveUpdatedName();
   });
 
-  const currentItemName = itemElement.querySelector(".not_bought_product_name");
-  itemElement.replaceChild(itemInput, currentItemName);
+  function saveUpdatedName() {
+    const updatedItemName = input.value;
+
+    if (updatedItemName.trim() === "") {
+      window.alert("You can't save an empty field!");
+      parentDiv.replaceChild(element, formDiv);
+      return;
+    }
+
+    var elements = document.querySelectorAll("#not_done > span");
+
+    elements.forEach(function (innerElement) {
+      var text = innerElement.textContent.trim().split("\n");
+      let name = innerElement.querySelector(".item-name");
+      console.log(text);
+      if (text[0] == itemName) {
+        console.log("okie");
+        name.innerText = updatedItemName;
+      }
+    });
+
+    const newDiv = document.createElement("div");
+    newDiv.className = "not_bought_product_name";
+    newDiv.addEventListener("click", function () {
+      editItemName(this);
+    });
+    const newParagraph = document.createElement("p");
+    newParagraph.textContent = updatedItemName;
+    newDiv.appendChild(newParagraph);
+    parentDiv.replaceChild(newDiv, formDiv);
+  }
+}
+
+let rightElementItem = function (itemName) {
+  var elements = document.querySelectorAll("#not_done > span");
+
+  let matchedElement = null;
+
+  elements.forEach(function (innerElement) {
+    let name = innerElement.querySelector(".item-name");
+    console.log(name);
+    if (name.textContent === itemName) {
+      matchedElement = innerElement;
+    }
+  });
+
+  return matchedElement;
+};
+
+function deleteItem(button) {
+  let itemBlock = button.closest(".item");
+  itemBlock.remove();
+
+  const goodName = itemBlock.querySelector(".not_bought_product_name > p");
+  console.log(goodName);
+  let rightItemBlock = rightElementItem(goodName.innerText);
+  console.log(rightItemBlock);
+  rightItemBlock.remove();
 }

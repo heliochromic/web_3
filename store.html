@@ -77,6 +77,7 @@
               type="button"
               class="delete remove tooltip"
               data-tooltip="delete"
+              onclick="deleteItem(this)"
             >
               X
             </button>
@@ -87,12 +88,12 @@
         <div class="right_block" style="border: none"><b>Залишилося</b></div>
         <div class="right_block" id="not_done">
           <span class="cell">
-            Печиво
-            <div class="yellow_counter">2</div>
+            <span class="item-name">Печиво</span>
+            <span class="yellow_counter">2</span>
           </span>
           <span class="cell">
-            Сир
-            <div class="yellow_counter">2</div>
+            <span class="item-name">Морозиво</span>
+            <span class="yellow_counter">2</span>
           </span>
         </div>
         <div class="right_block"><b>Куплено</b></div>

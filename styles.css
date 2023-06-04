@@ -115,7 +115,8 @@ section {
 }
 
 .bought_product_name, .not_bought_product_name, .product_name_form {
-    width: 120px;
+    width: 150px;
+    word-wrap: break-word;
 }
 
 .bought_product_name {

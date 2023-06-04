@@ -35,6 +35,7 @@ section {
     height: fit-content;
     width: 400px;
     background-color: rgba(255,255,255,255);
+    margin-bottom: 90px;
 }
 
 #add_item {
@@ -265,7 +266,7 @@ section {
     font-size: 17px;
 }
 
-#strikethrough {
+.strikethrough {
     text-decoration: line-through;
 }
 

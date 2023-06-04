@@ -28,15 +28,18 @@
           </form>
         </div>
         <div class="item">
-          <div class="bought_product_name">
+          <div class="not_bought_product_name"">
             <p>Помідори</p>
           </div>
-          <div class="counter">2</div>
+          <div class="not_bought_counter">
+            <div class="counter">1</div>
+          </div>
           <div class="not_bought">
             <button
               type="button"
               class="add to_do tooltip"
               data-tooltip="return to list"
+              onclick="unStrikethrough(this)"
             >
               Не куплено
             </button>
@@ -70,6 +73,7 @@
               type="button"
               class="add to_do tooltip"
               data-tooltip="click to buy"
+              onclick="strikethrough(this)"
             >
               Куплено
             </button>
@@ -85,17 +89,19 @@
         </div>
       </div>
       <div id="right" class="container">
-        <div class="right_block" style="border: none"><b>Залишилося</b></div>
+        <div id="remained" class="right_block" style="border: none">
+          <b>Залишилося</b>
+        </div>
         <div class="right_block" id="not_done">
           <span class="cell">
             <span class="item-name">Печиво</span>
             <span class="yellow_counter">2</span>
           </span>
         </div>
-        <div class="right_block"><b>Куплено</b></div>
+        <div id="was-bought" class="right_block"><b>Куплено</b></div>
         <div class="right_block" id="done">
-          <span class="cell">
-            <span id="strikethrough">Помідори</span>
+          <span class="cell strikethrough">
+            <span class="item-name">Помідори</span>
             <div class="yellow_counter">2</div>
           </span>
         </div>

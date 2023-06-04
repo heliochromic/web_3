@@ -13,16 +13,16 @@ function addElement() {
   newElement.classList.add("item");
 
   newElement.innerHTML = `
-        <div class="not_bought_product_name" onclick="editItemName(this)">
+        <div class="not_bought_product_name">
           <p>${inputValue}</p>
         </div>
         <div class="not_bought_counter">
-          <button type="button" class="round_button delete disabled" data-tooltip="remove" onclick="decrement(this)">-</button>
+          <button type="button" class="round_button delete disabled" data-tooltip="remove" onclick="decrement()">-</button>
           <div class="counter">1</div>
           <button type="button" class="round_button add tooltip" data-tooltip="add" onclick="increment(this)">+</button>
         </div>
         <div class="bought">
-          <button type="button" class="add to_do tooltip" data-tooltip="click to buy">Куплено</button>
+          <button type="button" class="add to_do tooltip" data-tooltip="click to buy" onclick="strikethrough(this)">Куплено</button>
           <button type="button" class="delete remove tooltip" data-tooltip="delete" onclick="deleteItem(this)">X</button>
         </div>
       `;
@@ -88,9 +88,7 @@ function decrement() {
 
 function changeYellow(button, value, sign) {
   const itemElement = button.closest(".item");
-  const itemBlockName = itemElement.querySelector(
-    ".not_bought_product_name p"
-  ).textContent;
+  const itemBlockName = itemElement.querySelector("p").textContent;
 
   var elements = document.querySelectorAll(".right_block .cell");
 
@@ -148,9 +146,7 @@ function editItemName(element) {
     elements.forEach(function (innerElement) {
       var text = innerElement.textContent.trim().split("\n");
       let name = innerElement.querySelector(".item-name");
-      console.log(text);
       if (text[0] == itemName) {
-        console.log("okie");
         name.innerText = updatedItemName;
       }
     });
@@ -168,13 +164,14 @@ function editItemName(element) {
 }
 
 let rightElementItem = function (itemName) {
-  var elements = document.querySelectorAll("#not_done > span");
+  const elements1 = Array.from(document.querySelectorAll("#not_done > span"));
+  const elements2 = Array.from(document.querySelectorAll("#done > span"));
 
+  let elements = elements1.concat(elements2);
   let matchedElement = null;
 
   elements.forEach(function (innerElement) {
     let name = innerElement.querySelector(".item-name");
-    console.log(name);
     if (name.textContent === itemName) {
       matchedElement = innerElement;
     }
@@ -188,8 +185,105 @@ function deleteItem(button) {
   itemBlock.remove();
 
   const goodName = itemBlock.querySelector(".not_bought_product_name > p");
-  console.log(goodName);
   let rightItemBlock = rightElementItem(goodName.innerText);
-  console.log(rightItemBlock);
   rightItemBlock.remove();
+}
+
+function strikethrough(button) {
+  let itemBlock = button.closest(".item");
+
+  //let counter = itemBlock.querySelector("div.not_bought_counter")
+
+  const notBought = document.createElement("div");
+  notBought.classList.add("not_bought");
+  notBought.innerHTML = `
+  	<button type="button" class="add to_do tooltip" data-tooltip="return to list" onclick="unStrikethrough(this)">
+  		Не куплено
+	</button>
+`;
+  const bought = itemBlock.querySelector(".bought");
+  itemBlock.replaceChild(notBought, bought);
+
+  const deleteButton = itemBlock.querySelector("button.round_button.delete");
+  const addButton = itemBlock.querySelector("button.round_button.add");
+  deleteButton.remove();
+  addButton.remove();
+
+  let name = itemBlock.querySelector(".not_bought_product_name");
+  name.classList.add("bought_product_name");
+  name.classList.remove("not_bought_product_name");
+
+  let rightBlock = rightElementItem(name.querySelector("p").innerText);
+  //console.log(rightBlock);
+  rightBlock.classList.add("strikethrough");
+  let doneWarehouse = document.querySelector("#done");
+  doneWarehouse.appendChild(rightBlock);
+}
+
+function unStrikethrough(button) {
+  let itemBlock = button.closest(".item");
+
+  const counter = itemBlock.querySelector(".counter");
+
+  //let label = itemBlock.querySelector(".not_bought_product_name")
+
+  const notBoughtCounter = document.createElement("div");
+  notBoughtCounter.classList.add("not_bought_counter");
+  if (counter.innerHTML == 1) {
+    notBoughtCounter.innerHTML = `
+        <button
+          type="button"
+          class="round_button delete disabled"
+          data-tooltip="delete"
+        >
+          -
+        </button>
+        <span class="counter">${counter.innerHTML}</span>
+        <button
+          type="button"
+          class="round_button add tooltip"
+          data-tooltip="add"
+          onclick="increment(this)"
+        >
+          +
+        </button>
+      `;
+  } else {
+    notBoughtCounter.innerHTML = `
+	<button onclick="decrement()" type="button" class="round_button delete tooltip" data-tooltip="remove">
+	  -
+	</button>
+	<span class="counter">${counter.innerHTML}</span>
+	<button type="button" class="round_button add tooltip" data-tooltip="add" onclick="increment(this)">
+	  +
+	</button>
+    `;
+  }
+
+  boughtCounter = itemBlock.querySelector(".not_bought_counter");
+  itemBlock.replaceChild(notBoughtCounter, boughtCounter);
+
+  const bought = document.createElement("div");
+  bought.classList.add("bought");
+  bought.innerHTML = `
+  <button type="button" class="add to_do tooltip" data-tooltip="click to buy" onclick="strikethrough(this)">
+	Куплено
+  </button>
+  <button type="button" class="delete remove tooltip" data-tooltip="delete" onclick="deleteItem(this)">
+	X
+  </button>
+  `;
+
+  const notBought = itemBlock.querySelector(".not_bought");
+  itemBlock.replaceChild(bought, notBought);
+
+  let name = itemBlock.querySelector(".bought_product_name");
+  name.classList.add("not_bought_product_name");
+  name.classList.remove("bought_product_name");
+
+  let rightBlock = rightElementItem(name.querySelector("p").innerText);
+  rightBlock.classList.remove("strikethrough");
+
+  let undoneWarehouse = document.querySelector("#not_done");
+  undoneWarehouse.appendChild(rightBlock);
 }

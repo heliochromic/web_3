@@ -28,22 +28,19 @@
           </form>
         </div>
         <div class="item">
-          <div class="not_bought_product_name"">
+          <div class="bought_product_name" "="">
             <p>Помідори</p>
           </div>
           <div class="not_bought_counter">
-            <div class="counter">1</div>
-          </div>
+        
+        <span class="counter">1</span>
+        
+      </div>
           <div class="not_bought">
-            <button
-              type="button"
-              class="add to_do tooltip"
-              data-tooltip="return to list"
-              onclick="unStrikethrough(this)"
-            >
-              Не куплено
-            </button>
-          </div>
+  	<button type="button" class="add to_do tooltip" data-tooltip="return to list" onclick="unStrikethrough(this)">
+  		Не куплено
+	</button>
+</div>
         </div>
         <div class="item">
           <div class="not_bought_product_name" onclick="editItemName(this)">
@@ -87,6 +84,28 @@
             </button>
           </div>
         </div>
+        <div class="item">
+          <div class="not_bought_product_name" onclick="editItemName(this)">
+            <p>Сир</p>
+          </div>
+          <div class="not_bought_counter">
+          <button type="button" class="round_button delete disabled" data-tooltip="delete">
+            -
+          </button>
+          <span class="counter">1</span>
+          <button type="button" class="round_button add tooltip" data-tooltip="add" onclick="increment(this)">
+            +
+          </button>
+        </div>
+          <div class="bought">
+    <button type="button" class="add to_do tooltip" data-tooltip="click to buy" onclick="strikethrough(this)">
+    Куплено
+    </button>
+    <button type="button" class="delete remove tooltip" data-tooltip="delete" onclick="deleteItem(this)">
+    X
+    </button>
+    </div>
+        </div>
       </div>
       <div id="right" class="container">
         <div id="remained" class="right_block" style="border: none">
@@ -95,14 +114,18 @@
         <div class="right_block" id="not_done">
           <span class="cell">
             <span class="item-name">Печиво</span>
-            <span class="yellow_counter">2</span>
+            <span class="yellow_counter">1</span>
+          </span>
+          <span class="cell">          
+            <span class="item-name">Сир</span>
+            <div class="yellow_counter">1</div>
           </span>
         </div>
         <div id="was-bought" class="right_block"><b>Куплено</b></div>
         <div class="right_block" id="done">
           <span class="cell strikethrough">
             <span class="item-name">Помідори</span>
-            <div class="yellow_counter">2</div>
+            <div class="yellow_counter">1</div>
           </span>
         </div>
       </div>

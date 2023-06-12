@@ -1,3 +1,5 @@
+var uniqueItemsList = ["Помідори", "Печиво", "Сир"];
+
 function addElement() {
   // Get the input element value from the form
   let input = document.querySelector('input[name="search"]');
@@ -8,12 +10,19 @@ function addElement() {
     return;
   }
 
+  if (uniqueItemsList.includes(inputValue.trim())) {
+    alert("this item already exists in list");
+    input.value = "";
+    return;
+  }
+  uniqueItemsList.push(inputValue.trim());
+
   let newElement = document.createElement("div");
 
   newElement.classList.add("item");
 
   newElement.innerHTML = `
-        <div class="not_bought_product_name">
+        <div class="not_bought_product_name" onclick="editItemName(this)">
           <p>${inputValue}</p>
         </div>
         <div class="not_bought_counter">
@@ -39,6 +48,7 @@ function addElement() {
   container.appendChild(newElement);
   rightContainer.appendChild(newLeftElement);
 
+  console.log(uniqueItemsList);
   input.value = "";
 }
 
@@ -141,6 +151,13 @@ function editItemName(element) {
       return;
     }
 
+    if (uniqueItemsList.includes(updatedItemName)) {
+      window.alert("Item name already exists!");
+      parentDiv.replaceChild(element, formDiv);
+      console.log(uniqueItemsList);
+      return;
+    }
+
     var elements = document.querySelectorAll("#not_done > span");
 
     elements.forEach(function (innerElement) {
@@ -184,9 +201,22 @@ function deleteItem(button) {
   let itemBlock = button.closest(".item");
   itemBlock.remove();
 
-  const goodName = itemBlock.querySelector(".not_bought_product_name > p");
-  let rightItemBlock = rightElementItem(goodName.innerText);
-  rightItemBlock.remove();
+  const goodNameElement = itemBlock.querySelector(
+    ".not_bought_product_name > p"
+  );
+  const goodName = goodNameElement.innerText;
+
+  const index = uniqueItemsList.indexOf(goodName);
+  if (index !== -1) {
+    uniqueItemsList.splice(index, 1);
+  }
+
+  let rightItemBlock = rightElementItem(goodName);
+  if (rightItemBlock) {
+    rightItemBlock.remove();
+  }
+
+  console.log(uniqueItemsList);
 }
 
 function strikethrough(button) {

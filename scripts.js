@@ -55,8 +55,8 @@ function addElement() {
 let input = document.querySelector('input[name="search"]');
 input.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
-    event.preventDefault(); // Prevent form submission
-    addElement(); // Call the addElement function
+    event.preventDefault();
+    addElement();
   }
 });
 
@@ -77,7 +77,7 @@ function increment(button) {
 }
 
 function decrement() {
-  const button = this; // Since the decrement function is called as an event listener, `this` refers to the clicked button
+  const button = this;
   const counterElement = button.parentNode.querySelector(".counter");
   let value = parseInt(counterElement.innerText);
   if (value === 2) {
@@ -138,7 +138,7 @@ function editItemName(element) {
   });
 
   form.addEventListener("focusout", function (event) {
-    event.preventDefault(); // Prevent the form from submitting
+    event.preventDefault();
     saveUpdatedName();
   });
 
@@ -242,6 +242,7 @@ function strikethrough(button) {
   let name = itemBlock.querySelector(".not_bought_product_name");
   name.classList.add("bought_product_name");
   name.classList.remove("not_bought_product_name");
+  name.removeAttribute("onclick");
 
   let rightBlock = rightElementItem(name.querySelector("p").innerText);
   //console.log(rightBlock);
@@ -310,6 +311,7 @@ function unStrikethrough(button) {
   let name = itemBlock.querySelector(".bought_product_name");
   name.classList.add("not_bought_product_name");
   name.classList.remove("bought_product_name");
+  name.setAttribute("onclick", "editItemName(this)");
 
   let rightBlock = rightElementItem(name.querySelector("p").innerText);
   rightBlock.classList.remove("strikethrough");
